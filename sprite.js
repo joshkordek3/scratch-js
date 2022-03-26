@@ -21,64 +21,64 @@ class Sprite {
     size = isDefined(size) ? size : 100;
     visible = isDefined(visible) ? visible : true;
     costumes = isDefined(costumes) ? costumes : [Costume('costume1', 'https://commons.wikimedia.org/wiki/File:Cards-Blank.svg')];
-    self.name = name;
-    self.costumes = costumes;
-    self.pos = {x: x, y: y};
-    self.isVisible = visible;
-    self.size = size;
-    self.direction = dir;
-    self.message = '';
-    self._displayTimestamp = NaN;
-    self._displayDuration = NaN;
-    self._messageDisplayType = undefined;
-    self.costume = {number: 0, name: self.costumes[0].name};
-    self._canvas = display;
-    self.layer = display.frontLayer;
-    self.scripts = [];
+    this.name = name;
+    this.costumes = costumes;
+    this.pos = {x: x, y: y};
+    this.isVisible = visible;
+    this.size = size;
+    this.direction = dir;
+    this.message = '';
+    this._displayTimestamp = NaN;
+    this._displayDuration = NaN;
+    this._messageDisplayType = undefined;
+    this.costume = {number: 0, name: this.costumes[0].name};
+    this._canvas = display;
+    this.layer = display.frontLayer;
+    this.scripts = [];
   }
   show () {
-    self.isVisible = true;
+    this.isVisible = true;
   }
   hide () {
-    self.isVisible = false;
+    this.isVisible = false;
   }
   _setMesssage (message, seconds, wait) {
-    self.message = message;
-    self._displayTimestamp = isDefined(seconds) ? UNIX('seconds') : NaN;
-    self._displayDuration = isDefined(seconds) ? seconds : NaN;
+    this.message = message;
+    this._displayTimestamp = isDefined(seconds) ? UNIX('seconds') : NaN;
+    this._displayDuration = isDefined(seconds) ? seconds : NaN;
     if (wait && isDefined(seconds)) blocks.control.wait(seconds);
   }
   say (message, seconds) {
-    self._messageDisplayType = 'say';
-    self._setMessage(message, seconds, true);
+    this._messageDisplayType = 'say';
+    this._setMessage(message, seconds, true);
   }
   think (message, seconds) {
-    self._messageDisplayType = 'think';
-    self._setMessage(message, seconds, true);
+    this._messageDisplayType = 'think';
+    this._setMessage(message, seconds, true);
   }
   setCostume (costume) {
     if (typeof costume === 'number') {
-      self.costume = {number: costume, name: self.costumes[costume].name};
+      this.costume = {number: costume, name: this.costumes[costume].name};
     }
     if (typeof costume === 'string') {
-      self.costume = {number: self.costumes.indexOf(costume), name: costume};
+      this.costume = {number: this.costumes.indexOf(costume), name: costume};
     }
   }
   changeCostume (number) {
-    let costume = (self.costume.number + number) % self.costumes.length;
+    let costume = (this.costume.number + number) % this.costumes.length;
     if (number < 0) {
-      costume = self.costumes.length * (costume < 0) + costume;
+      costume = this.costumes.length * (costume < 0) + costume;
     }
-    self.setCostume(costume);
+    this.setCostume(costume);
   }
   setSize (n) {
-    self.size = Math.max(n, 0);
+    this.size = Math.max(n, 0);
   }
   changeSize (by) {
-    setSize(self.size + by);
+    setSize(this.size + by);
   }
   layer (n) {
-    self.layer = self._canvas.layer(n);
+    this.layer = this._canvas.layer(n);
   }
 }
 export { Sprite, Costume };
