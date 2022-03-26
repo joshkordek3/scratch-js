@@ -6,7 +6,7 @@ const blocks = {
     
   },
   control: {
-    wait: delay
+    wait: (t) => (delay('seconds', t))
   }
 }
 export blocks;
