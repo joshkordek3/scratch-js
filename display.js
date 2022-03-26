@@ -1,4 +1,4 @@
-import * from 'math.js';
+import Math from 'math.js';
 class Display {
   
 }
