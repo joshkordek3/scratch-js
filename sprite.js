@@ -1,5 +1,5 @@
 import isDefined from 'defined.js';
-import { UNIX, delay } from 'time.js';
+import UNIX from 'time.js';
 import blocks from 'blocks.js';
 const Costume = (name, src) => ({name: name, src: src});
 class Sprite {
