@@ -3,4 +3,5 @@ Object.clone = (obj, c) => {
   if (!obj.getClass) return {...obj};
   return Object.assign(new (obj.getClass())(), obj);
 };
-export Object;
+Function.executable = (func, args) => (() => wait(...args));
+export { Object, Function };
