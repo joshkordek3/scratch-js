@@ -1,4 +1,4 @@
-import isDefined from 'defined.js';
+import isDefined from '/defined.js';
 function UNIX (timeUnit) {
   if (timeUnit === 'milliseconds' || !isDefined(timeUnit)) return Date.now();
   if (timeUnit === 'seconds') return Date.now() / 1000 | 0;
