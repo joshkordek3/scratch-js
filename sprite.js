@@ -1,7 +1,7 @@
-import isDefined from 'defined.js';
-import Function from 'cloning.js';
-import UNIX from 'time.js';
-import blocks from 'blocks.js';
+import isDefined from '/defined.js';
+import Function from '/cloning.js';
+import UNIX from '/time.js';
+import blocks from './blocks.js';
 const Costume = (name, src) => {
   let img = new Image();
   img.src = src;
@@ -38,6 +38,7 @@ class Sprite {
     this._layerHandler = layerHandler;
     this.layer = layerHandler.layer('front');
     this.scripts = [];
+    this.idleScripts = [];
   }
   show () {
     this.isVisible = true;
@@ -45,7 +46,7 @@ class Sprite {
   }
   hide () {
     this.isVisible = false;
-    return this.isVisible():
+    return this.isVisible();
   }
   _setMesssage (message, seconds, wait) {
     this.message = message;
@@ -67,12 +68,16 @@ class Sprite {
     this._messageDisplayType = 'think';
     return this.this._setMessage(message, seconds, !async);
   }
+  _getCostumeIndex (name) {
+    for (let i in this.costumes) if (this.costumes[i].name === name) return i;
+    return this.costume.number;
+  }
   setCostume (costume) {
     if (typeof costume === 'number') {
-      this.costume = this.costumes[Math.constrain(costume, 0, this.costumes.length];
+      this.costume = this.costumes[Math.constrain(costume, 0, this.costumes.length - 1)];
     }
     if (typeof costume === 'string') {
-      return setCostume(this._getCostumeIndex(costume)]);
+      return setCostume(this._getCostumeIndex(costume));
     }
     return this.costume;
   }
@@ -99,13 +104,31 @@ class Sprite {
     return this.layer;
   }
   static forever (func) {
-   this._appendScript(func, () => (true));
+   this.appendScript(func, 'forever');
   }
-  _appendScript (func, repeatWhile) {
-    this.scripts.push(Function(`return ${String(func)}`)());
+  static doWhile (func, cond) {
+    this.appendScript(func, 'do-while', cond);
   }
-  appendScript (func, repeatWhile) {
-    this._appendScript(func, typeof repeatWhile === 'function' ? repeatWhile : () => (false));
+  static while (func, cond) {
+    this.appendScript(func, 'while', cond);
+  }
+  executeScripts () {
+    for (let script of this.scripts) {
+      if (this.idleScripts.indexOf(script) !== -1) continue;
+      let s = script.type !== 'forever' && !script.condition(this, UNIX('milliseconds'));
+      if (script.type === 'while' && s) {
+        this.idleScripts.push(script);
+        continue;
+      }
+      script.func(this, UNIX('milliseconds'));
+      if (script.type === 'do-while' && s) {
+        this.idleScripts.push(script);
+        continue;
+      }
+    }
+  }
+  appendScript (func, t, cond) {
+    this.scripts.push({func: func, type: isDefined(t) ? t : 'do-while', condition: isDefined(cond) ? cond : (() => false)});
   }
 }
 export { Sprite, Costume };
