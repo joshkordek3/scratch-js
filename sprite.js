@@ -82,11 +82,11 @@ class Sprite {
   }
   say (message, seconds, async) {
     this._messageDisplayType = 'say';
-    return this.this._setMessage(message, seconds, !async);
+    return this._setMessage(message, seconds, !async);
   }
   think (message, seconds, async) {
     this._messageDisplayType = 'think';
-    return this.this._setMessage(message, seconds, !async);
+    return this._setMessage(message, seconds, !async);
   }
   _getCostumeIndex (name) {
     for (let i in this.costumes) if (this.costumes[i].name === name) return i;
