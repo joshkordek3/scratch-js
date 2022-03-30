@@ -1,4 +1,5 @@
 import isDefined from '/defined.js';
+import Math from '/math.js';
 class Display {
   constructor (width, height) {
     this.DOM = document.createElement('canvas');
@@ -55,7 +56,7 @@ class Display {
   renderImage (image, x, y, width, height, direction) {
     this.ctx.save();
     this.ctx.translate(x, y);
-    this.ctx.rotate(direction * Math.PI / 180);
+    this.ctx.rotate(Math.degToRad(direction));
     this.ctx.drawImage(image, width * -0.5, height * -0.5, width, height);
     this.ctx.restore();
   }
