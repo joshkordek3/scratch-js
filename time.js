@@ -7,6 +7,6 @@ function UNIX (timeUnit) {
 }
 async function delay (timeUnit, amount) {
   let timeObject = {milliseconds: 1, seconds: 1000, hours: 60000, days: 1440000};
-  let wait = await (() => (new Promise(resolve => (setTimeout(resolve, timeObject[timeUnit] * amount)))));
+  let wait = await (() => (new Promise(resolve => (setTimeout(resolve, timeObject[timeUnit] * amount)))))();
 }
 export { UNIX, delay };
